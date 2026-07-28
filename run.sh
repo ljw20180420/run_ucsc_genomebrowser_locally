@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. cfg.sh
+
 run() {
     if [ "$(docker ps -aq -f name=^/ucsc_genomebrowser$)" ]; then
         echo "Container exists. Starting it..."

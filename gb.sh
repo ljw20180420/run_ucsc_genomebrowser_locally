@@ -54,6 +54,7 @@ shortLabel ${stem}
 longLabel ${stem}
 type bigWig 0 ${bw_up}
 visibility full
+autoScale on
 
 EOF
 }

@@ -1,7 +1,7 @@
 mm9() {
     _cwget "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.chrom.sizes" "${hub_dir}/lmm9/lmm9.chrom.sizes"
     _cwget "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit" "${hub_dir}/lmm9/lmm9.2bit"
-    genomes "lmm9" "Mus Musculus" "chr18:36900000-37900000"
+    genomes "lmm9" "Mus Musculus (mm9)" "chr18:36900000-37900000"
 
     > "${hub_dir}/lmm9/trackDb.txt"
 
