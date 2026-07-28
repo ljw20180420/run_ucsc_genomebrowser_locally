@@ -1,31 +1,8 @@
 #!/bin/bash
 
 . cfg.sh
-
-run() {
-    if [ "$(docker ps -aq -f name=^/ucsc_genomebrowser$)" ]; then
-        echo "Container exists. Starting it..."
-        docker start ucsc_genomebrowser
-    else
-        echo "Container does not exist. Creating and running a new one..."
-        docker run -d \
-            --name ucsc_genomebrowser \
-            -p 8080:80 \
-            -v ${hub_dir}:/usr/local/apache/htdocs/myHub \
-            -v ${cfg}:/usr/local/apache/cgi-bin/hg.conf \
-            ljw/ucsc_genomebrowser_image \
-            /sbin/my_init \
-            --skip-startup-files
-    fi
-}
-
-stop() {
-    docker stop ucsc_genomebrowser
-}
-
-update() {
-    docker exec ucsc_genomebrowser /bin/bash /root/browserSetup.sh cgiUpdate
-}
+. mm9.sh
+. mm10.sh
 
 _cwget() {
     local url=$1
@@ -122,37 +99,21 @@ visibility full
 EOF
 }
 
-mm10() {
-    _cwget "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" "${hub_dir}/lmm10/lmm10.chrom.sizes"
-    _cwget "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit" "${hub_dir}/lmm10/lmm10.2bit"
-    genomes "lmm10" "Mus Musculus" "chr18:36900000-37900000"
-
-    > "${hub_dir}/lmm10/trackDb.txt"
-
-    _cwget "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw" "${hub_dir}/lmm10/embryoCTCFAll.bw"
-    addBigWig "lmm10" "embryoCTCFAll.bw"
-
-    _cwget "https://hgdownload.soe.ucsc.edu/goldenPath/mm10/database/refGene.txt.gz" "${hub_dir}/lmm10/refGene.txt.gz"
-    gzip -fkd "${hub_dir}/lmm10/refGene.txt.gz"
-    _cwget "https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as" "${hub_dir}/lmm10/bigGenePred.as"
-    genePredToBigBed "lmm10" "refGene.txt"
-    addBigGenePred "lmm10" "refGene.bb"
-}
-
 hub() {
     mkdir -p "${hub_dir}"
     cp ./hub.txt "${hub_dir}/hub.txt"
 
     > "${hub_dir}/genomes.txt"
     mm10
+    mm9
 }
 
-hub_url() {
-    local assembly
+url() {
+    # https://genome.ucsc.edu/goldenPath/help/assemblyHubHelp.html#linkingHub
 
-    hub_connect_page="http://localhost:8080/cgi-bin/hgHubConnect?hgHub_do_redirect=on&hgHubConnect.remakeTrackHub=on&hgHub_do_firstDb=1&hubUrl=http://localhost/myHub/hub.txt"
-    genome_gateway_page="http://genome.ucsc.edu/cgi-bin/hgGateway?genome=${assembly}&hubUrl=http://localhost/myHub/hub.txt"
-    genome_browser_page="http://localhost:8080/cgi-bin/hgTracks?genome=${assembly}&hubUrl=http://localhost/myHub/hub.txt"
+    local hub_connect_page="http://localhost:8080/cgi-bin/hgHubConnect?hgHub_do_redirect=on&hgHubConnect.remakeTrackHub=on&hgHub_do_firstDb=1&hubUrl=http://localhost/myHub/hub.txt"
+
+    echo ${hub_connect_page}
 }
 
 cmd=$1
