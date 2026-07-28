@@ -1,5 +1,7 @@
 #!/bin/bash
 
+hub_dir="${HOME}/sdb1/myHub"
+
 config_docker_build_and_run_proxy() {
     local port=$1
 
@@ -61,13 +63,9 @@ run() {
         docker start ucsc_genomebrowser
     else
         echo "Container does not exist. Creating and running a new one..."
-        mkdir -p ~/sdb1/ucsc/data
-        mkdir -p ~/sdb1/ucsc/gbdb
         docker run -d \
             --name ucsc_genomebrowser \
             -p 8080:80 \
-            -v ~/sdb1/ucsc/data:/data \
-            -v ~/sdb1/ucsc/gbdb:/gbdb \
             ljw/ucsc_genomebrowser_image \
             /sbin/my_init \
             --skip-startup-files
@@ -79,13 +77,41 @@ stop() {
 }
 
 update() {
-    docker exec ucsc_genomebrowser bash root/browserSetup.sh cgiUpdate
+    docker exec ucsc_genomebrowser /bin/bash /root/browserSetup.sh cgiUpdate
 }
 
+shell() {
+    docker exec -it ucsc_genomebrowser /bin/bash
+}
+
+inspect() {
+    docker run --rm -it \
+        ljw/ucsc_genomebrowser_image \
+	/bin/bash
+}
+
+cwget() {
+    local url=$1
+    local output=$2
+    if ! [ -f "${output}" ]
+    then
+        wget "${url}" \
+            -O "${output}"
+    fi
+}
+
+hub() {
+    cwget "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw" "${hub_dir}/mm10/embryoCTCFAll.bw"
+    cwget "https://hgdownload.soe.ucsc.edu/goldenPath/mm10/database/refGene.txt.gz" "${hub_dir}/mm10/refGene.txt.gz"
+
+    genePredToBigGenePred refGene.txt.gz refGene.bgp
+    gtfToGenePred
+    genePredToBigGenePred
+}
 
 # config 6789
 # build
 
 cmd=$1
-
-eval ${cmd}
+shift
+"${cmd}" "$@"
