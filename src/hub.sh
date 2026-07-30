@@ -172,14 +172,6 @@ visibility hide
 EOF
 }
 
-url() {
-    # https://genome.ucsc.edu/goldenPath/help/assemblyHubHelp.html#linkingHub
-
-    local hub_connect_page="http://localhost:8080/cgi-bin/hgHubConnect?hgHub_do_redirect=on&hgHubConnect.remakeTrackHub=on&hgHub_do_firstDb=1&hubUrl=http://localhost/myHub/hub.txt"
-
-    echo ${hub_connect_page}
-}
-
 main() {
     local config=$1
 
