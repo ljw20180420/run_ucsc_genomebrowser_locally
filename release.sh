@@ -8,7 +8,7 @@ bump() {
     local minor
     local patch
 
-    IFS="." read major minor patch .version
+    IFS="." read major minor patch < .version
     patch=$(( patch + 1 ))
     printf "%d.%d.%d\n" ${major} ${minor} ${patch}
 }
