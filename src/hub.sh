@@ -51,6 +51,8 @@ genomes() {
     genome_num=$(jq '.genomes | length' ${config})
     for (( i = 0; i < ${genome_num}; ++i)) {
         read genome < <(jq -r ".genomes[${i}].genome" ${config})
+        mkdir -p ${hub_dir}/${genome}
+
         read twoBitPath < <(jq -r ".genomes[${i}].twoBitPath" ${config})
         _fetch "${twoBitPath}" "${hub_dir}/${genome}/${genome}.2bit"
         read chromSizes < <(jq -r ".genomes[${i}].chromSizes" ${config})
@@ -77,6 +79,15 @@ EOF
             for (( j = 0; j < ${bigWig_num}; ++j )) {
                 read bigWig < <(jq -r ".genomes[$i].tracks.bigWig[${j}]" ${config})
                 addBigWig ${hub_dir} ${genome} ${bigWig} >> "${hub_dir}/${genome}/trackDb.txt"
+            }
+        fi
+
+        if jq -r ".genomes[${i}].tracks | has(\"bam\")" ${config} > /dev/null
+        then
+            bam_num=$(jq -r ".genomes[${i}].tracks.bam | length" ${config})
+            for (( j = 0; j < ${bam_num}; ++j )) {
+                read bam < <(jq -r ".genomes[$i].tracks.bam[${j}]" ${config})
+                addBam ${hub_dir} ${genome} ${bam} >> "${hub_dir}/${genome}/trackDb.txt"
             }
         fi
     }
@@ -138,6 +149,25 @@ longLabel ${stem}
 type bigWig 0 ${bw_up}
 visibility full
 autoScale on
+
+EOF
+}
+
+addBam() {
+    local hub_dir=$1
+    local genome=$2
+    local bam=$3
+    local base="${bam##*/}"
+    local stem="${base%.*}"
+
+    _fetch "${bam}" "${hub_dir}/${genome}/${base}"
+    cat <<EOF
+track ${stem}
+bigDataUrl ${base}
+shortLabel ${stem}
+longLabel ${stem}
+type bam
+visibility hide
 
 EOF
 }

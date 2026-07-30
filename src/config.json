@@ -29,6 +29,19 @@
                     "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw"
                 ]
             }   
+        },
+        {
+            "genome": "lhg19",
+            "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/bigZips/hg19.2bit",
+            "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/bigZips/hg19.chrom.sizes",
+            "orgnisim": "Homosapien (hg19)",
+            "defaultPos": "chr5:140125000-140922000",
+            "gene": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz",
+            "tracks": {
+                "bam": [
+                    "/home/ljw/sdc1/hush/total_rna_seq/WT.bam"
+                ]
+            }
         }
     ]
 }
