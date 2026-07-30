@@ -1,0 +1,3 @@
+- show splice
+  - or use igv
+- apptainer
