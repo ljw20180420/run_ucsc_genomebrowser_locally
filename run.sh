@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. cfg.sh
-
 run() {
     if [ "$(docker ps -aq -f name=^/ucsc_genomebrowser$)" ]; then
         echo "Container exists. Starting it..."
@@ -12,15 +10,10 @@ run() {
             --name ucsc_genomebrowser \
             -p 8080:80 \
             -v ${hub_dir}:/usr/local/apache/htdocs/myHub \
-            -v ${cfg}:/usr/local/apache/cgi-bin/hg.conf \
             ljw/ucsc_genomebrowser_image \
             /sbin/my_init \
             --skip-startup-files
     fi
-}
-
-stop() {
-    docker stop ucsc_genomebrowser
 }
 
 update() {

@@ -1,5 +1,0 @@
-hub myHub
-shortLabel my hub
-longLabel my hub for local usage
-genomesFile genomes.txt
-email ljw2017@sjtu.edu.cn

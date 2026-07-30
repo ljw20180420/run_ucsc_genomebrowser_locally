@@ -1,0 +1,34 @@
+{
+    "port": "6789",
+    "hub_dir": "${HOME}/sdb1/ucsc/hubs/myHub",
+    "hub": "myHub",
+    "email": "ljw2017@sjtu.edu.cn",
+    "genomes": [
+        {
+            "genome": "lmm9",
+            "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit",
+            "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.chrom.sizes",
+            "orgnisim": "Mus Musculus (mm9)",
+            "defaultPos": "chr18:36900000-37900000",
+            "gene": "https://hgdownload.soe.ucsc.edu/goldenPath/mm9/database/refGene.txt.gz",
+            "tracks": {
+                "bigWig": [
+                    "/home/ljw/sdc1/cpcdh/ESC.CTCF.merged.sort.bam_RPKM.bw"
+                ]
+            }
+        },
+        {
+            "genome": "lmm10",
+            "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit",
+            "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes",
+            "orgnisim": "Mus Musculus (mm10)",
+            "defaultPos": "chr18:36900000-37900000",
+            "gene": "https://hgdownload.soe.ucsc.edu/goldenPath/mm10/database/refGene.txt.gz",
+            "tracks": {
+                "bigWig": [
+                    "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw"
+                ]
+            }   
+        }
+    ]
+}

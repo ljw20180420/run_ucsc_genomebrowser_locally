@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# change to the dir of the script
+cd $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 _config_docker_build_and_run_proxy() {
     local port=$1
 
@@ -36,24 +39,14 @@ _config_docker_daemon_proxy() {
 EOF
 }
 
-config() {
+proxy() {
     local port=$1
 
-    config_docker_build_and_run_proxy ${port}
-    config_docker_daemon_proxy ${port}
+    _config_docker_build_and_run_proxy ${port}
+    _config_docker_daemon_proxy ${port}
     systemctl --user daemon-reload
     systemctl --user restart docker
 }
 
-build() {
-    if ! [ -f Dockerfile ]
-    then
-        wget https://raw.githubusercontent.com/ucscGenomeBrowser/kent/master/src/product/installer/docker/Dockerfile
-    fi
-    docker build . \
-        --network=host \
-        -t ljw/ucsc_genomebrowser_image
-}
-
-config 6789
-build
+read port < <(jq -r ".port" config.json)
+proxy ${port}
