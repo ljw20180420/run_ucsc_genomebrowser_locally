@@ -8,7 +8,7 @@
             "genome": "lmm9",
             "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit",
             "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/mm9/bigZips/mm9.chrom.sizes",
-            "orgnisim": "Mus Musculus (mm9)",
+            "organism": "Mus Musculus (mm9)",
             "defaultPos": "chr18:36900000-37900000",
             "gene": "https://hgdownload.soe.ucsc.edu/goldenPath/mm9/database/refGene.txt.gz",
             "tracks": {
@@ -21,7 +21,7 @@
             "genome": "lmm10",
             "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit",
             "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes",
-            "orgnisim": "Mus Musculus (mm10)",
+            "organism": "Mus Musculus (mm10)",
             "defaultPos": "chr18:36900000-37900000",
             "gene": "https://hgdownload.soe.ucsc.edu/goldenPath/mm10/database/refGene.txt.gz",
             "tracks": {
@@ -34,7 +34,7 @@
             "genome": "lhg19",
             "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/bigZips/hg19.2bit",
             "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/bigZips/hg19.chrom.sizes",
-            "orgnisim": "Homosapien (hg19)",
+            "organism": "Homosapien (hg19)",
             "defaultPos": "chr5:140125000-140922000",
             "gene": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz",
             "tracks": {

@@ -67,6 +67,7 @@ twoBitPath ${genome}/${genome}.2bit
 chromSizes ${genome}/${genome}.chrom.sizes
 organism ${organism}
 defaultPos ${defaultPos}
+description ${organism}
 
 EOF
 
