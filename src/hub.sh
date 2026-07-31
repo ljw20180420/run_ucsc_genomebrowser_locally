@@ -161,6 +161,12 @@ addBam() {
     local stem="${base%.*}"
 
     _fetch "${bam}" "${hub_dir}/${genome}/${base}"
+    if [[ "${bam}" != "https://"* && -f "${bam}.bai" ]]
+    then
+        _fetch "${bam}.bai" "${hub_dir}/${genome}/${base}.bai"
+    else
+        samtools index "${hub_dir}/${genome}/${base}"
+    fi
     cat <<EOF
 track ${stem}
 bigDataUrl ${base}
