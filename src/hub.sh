@@ -74,109 +74,18 @@ EOF
         > "${hub_dir}/${genome}/trackDb.txt"
         addGene ${hub_dir} ${genome} ${gene} >> "${hub_dir}/${genome}/trackDb.txt"
 
-        if jq -r ".genomes[${i}].tracks | has(\"bigWig\")" ${config} > /dev/null
-        then
-            bigWig_num=$(jq -r ".genomes[${i}].tracks.bigWig | length" ${config})
-            for (( j = 0; j < ${bigWig_num}; ++j )) {
-                read bigWig < <(jq -r ".genomes[$i].tracks.bigWig[${j}]" ${config})
-                addBigWig ${hub_dir} ${genome} ${bigWig} >> "${hub_dir}/${genome}/trackDb.txt"
-            }
-        fi
-
-        if jq -r ".genomes[${i}].tracks | has(\"bam\")" ${config} > /dev/null
-        then
-            bam_num=$(jq -r ".genomes[${i}].tracks.bam | length" ${config})
-            for (( j = 0; j < ${bam_num}; ++j )) {
-                read bam < <(jq -r ".genomes[$i].tracks.bam[${j}]" ${config})
-                addBam ${hub_dir} ${genome} ${bam} >> "${hub_dir}/${genome}/trackDb.txt"
-            }
-        fi
+        for type in bigWig bam hic
+        do
+            if jq -r ".genomes[${i}].tracks | has(\"${type}\")" ${config} > /dev/null
+            then
+                num=$(jq -r ".genomes[${i}].tracks.${type} | length" ${config})
+                for (( j = 0; j < ${num}; ++j )) {
+                    read url < <(jq -r ".genomes[$i].tracks.${type}[${j}]" ${config})
+                    "add${type^}" ${hub_dir} ${genome} ${url} >> "${hub_dir}/${genome}/trackDb.txt"
+                }
+            fi
+        done
     }
-}
-
-addGene() {
-    local hub_dir=$1
-    local genome=$2
-    local gene=$3
-
-    if [[ "${gene}" == *".gz" ]]
-    then
-        _fetch "${gene}" "${hub_dir}/${genome}/${genome}.gp.gz"
-        gzip -fkd "${hub_dir}/${genome}/${genome}.gp.gz"
-    else
-        _fetch "${gene}" "${hub_dir}/${genome}/${genome}.gp"
-    fi
-    _fetch "https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as" "${hub_dir}/${genome}/bigGenePred.as"
-    cut -f3- "${hub_dir}/${genome}/${genome}.gp" |
-    awk -F $'\t' -v OFS=$'\t' '
-        {
-            print $11,$0
-        }
-    ' |
-    genePredToBigGenePred stdin stdout |
-    sort -k1,1 -k2,2n \
-        > "${hub_dir}/${genome}/${genome}.bgp"
-    bedToBigBed -type=bed12+8 -tab \
-        -as="${hub_dir}/${genome}/bigGenePred.as" \
-        "${hub_dir}/${genome}/${genome}.bgp" \
-        "${hub_dir}/${genome}/${genome}.chrom.sizes" \
-        "${hub_dir}/${genome}/${genome}.bb"
-
-    cat <<EOF
-track ${genome}Gene
-bigDataUrl ${genome}.bb
-shortLabel ${genome}Gene
-longLabel ${genome}Gene
-type bigGenePred
-visibility full
-
-EOF
-}
-
-addBigWig() {
-    local hub_dir=$1
-    local genome=$2
-    local bigWig=$3
-    local base="${bigWig##*/}"
-    local stem="${base%.*}"
-
-    _fetch "${bigWig}" "${hub_dir}/${genome}/${base}"
-    local bw_up="$(bigWigInfo -minMax "${hub_dir}/${genome}/${base}" | cut -d' ' -f2)"
-    cat <<EOF
-track ${stem}
-bigDataUrl ${base}
-shortLabel ${stem}
-longLabel ${stem}
-type bigWig 0 ${bw_up}
-visibility full
-autoScale on
-
-EOF
-}
-
-addBam() {
-    local hub_dir=$1
-    local genome=$2
-    local bam=$3
-    local base="${bam##*/}"
-    local stem="${base%.*}"
-
-    _fetch "${bam}" "${hub_dir}/${genome}/${base}"
-    if [[ "${bam}" != "https://"* && -f "${bam}.bai" ]]
-    then
-        _fetch "${bam}.bai" "${hub_dir}/${genome}/${base}.bai"
-    else
-        samtools index "${hub_dir}/${genome}/${base}"
-    fi
-    cat <<EOF
-track ${stem}
-bigDataUrl ${base}
-shortLabel ${stem}
-longLabel ${stem}
-type bam
-visibility hide
-
-EOF
 }
 
 main() {
@@ -191,4 +100,5 @@ main() {
     genomes ${config} > ${hub_dir}/genomes.txt
 }
 
+. adds.sh
 main config.json

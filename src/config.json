@@ -27,8 +27,11 @@
             "tracks": {
                 "bigWig": [
                     "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw"
+                ],
+                "hic": [
+                    "/home/ljw/sdc1/cpcdh/GSE279296_untagged_untreated_merge-rep1-2.mcool"
                 ]
-            }   
+            }
         },
         {
             "genome": "lhg19",
