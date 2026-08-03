@@ -45,6 +45,7 @@ addBigWig() {
     local stem="${base%.*}"
 
     _fetch "${url}" "${hub_dir}/${genome}/${base}"
+
     local bw_up="$(bigWigInfo -minMax "${hub_dir}/${genome}/${base}" | cut -d' ' -f2)"
     cat <<EOF
 track ${stem}
@@ -72,6 +73,7 @@ addBam() {
     else
         samtools index "${hub_dir}/${genome}/${base}"
     fi
+
     cat <<EOF
 track ${stem}
 bigDataUrl ${base}
@@ -103,7 +105,7 @@ addHic() {
         return
     fi
 
-        cat <<EOF
+    cat <<EOF
 track ${stem}
 bigDataUrl ${stem}.hic
 shortLabel ${stem}
@@ -118,6 +120,26 @@ resolution Auto
 EOF
 }
 
-addBigBed() {
-    return
+addBed() {
+    local hub_dir=$1
+    local genome=$2
+    local url=$3
+    local base="${url##*/}"
+    local stem="${base%.*}"
+
+    _fetch "${url}" "${hub_dir}/${genome}/${base}"
+    bedToBigBed \
+        "${hub_dir}/${genome}/${base}" \
+        "${hub_dir}/${genome}/${genome}.chrom.sizes" \
+        "${hub_dir}/${genome}/${stem}.bb"
+
+    cat <<EOF
+track ${stem}
+bigDataUrl ${stem}.bb
+shortLabel ${stem}
+longLabel ${stem}
+type bigBed 6 +
+visibility full
+
+EOF
 }

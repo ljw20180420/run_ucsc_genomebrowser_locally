@@ -74,7 +74,7 @@ EOF
         > "${hub_dir}/${genome}/trackDb.txt"
         addGene ${hub_dir} ${genome} ${gene} >> "${hub_dir}/${genome}/trackDb.txt"
 
-        for type in bigWig bam hic
+        for type in bigWig bam hic bed
         do
             if jq -r ".genomes[${i}].tracks | has(\"${type}\")" ${config} > /dev/null
             then

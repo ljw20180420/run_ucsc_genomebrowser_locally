@@ -37,6 +37,16 @@ Then to recreate the deleted container, you need to run
 $ docker compose up
 ```
 
+# Famous track hubs
+
+- http://localhost:8080/cgi-bin/hgHubConnect?hgHub_do_redirect=on&hgHubConnect.remakeTrackHub=on&hgHub_do_firstDb=1&hubUrl=https://remap.univ-amu.fr/storage/public/hubReMap2022/hub.txt
+
 # TODO
 
-- 加入bed
+- check what happens to sudo bash browserSetup.sh -o and try it in docker
+- check Dockerfile to learn what happens to the containerized GBIC
+- 研究如何包含public track hub
+  - 基因组名称冲突(lmm10 vs mm10)
+    - 使用mm10会读取ucsc的内置trackDb.txt
+      - 注释或删除内置trackDb.txt
+      - 修改hg.conf
