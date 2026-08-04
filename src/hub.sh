@@ -13,7 +13,13 @@ _fetch() {
         then
             wget "${url}" -O "${output}"
         else
-            cp "${url}" "${output}"
+            if ! [ -s "${url}" ]
+            then
+                echo "Error: ${url} does not exist" >&2
+                exit 1
+            else
+                cp "${url}" "${output}"
+            fi
         fi
     fi
 }

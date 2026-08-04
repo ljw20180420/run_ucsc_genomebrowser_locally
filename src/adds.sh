@@ -18,7 +18,6 @@ addGene() {
     else
         local cnum=2
     fi
-    echo ${cnum} >&2
     cut -f${cnum}- "${hub_dir}/${genome}/${genome}.gp" |
     awk -F $'\t' -v OFS=$'\t' '
         {
@@ -100,17 +99,18 @@ addHic() {
     local base="${url##*/}"
     local stem="${base%.*}"
 
-    if [[ "${url}" == *".hic" ]]
+    if [[ "${url}" != *".hic" && "${url}" == *".mcool" && "${url}" == *".cool" ]]
     then
-        _fetch "${url}" "${hub_dir}/${genome}/${base}"
-    elif [[ "${url}" == *".mcool" || "${url}" == *".cool" ]]
+        echo "Error: file extension must be .hic or .[m]cool"
+        exit 1
+    fi
+    _fetch "${url}" "${hub_dir}/${genome}/${base}"
+    if [[ "${url}" == *".mcool" || "${url}" == *".cool" ]]
     then
         if [[ ! -s "${hub_dir}/${genome}/${stem}.hic" ]]
         then
-            apptainer run docker://ghcr.io/paulsengroup/hictk convert "${url}" "${hub_dir}/${genome}/${stem}.hic"
+            apptainer run docker://ghcr.io/paulsengroup/hictk convert "${hub_dir}/${genome}/${base}" "${hub_dir}/${genome}/${stem}.hic"
         fi
-    else
-        return
     fi
 
     cat <<EOF
