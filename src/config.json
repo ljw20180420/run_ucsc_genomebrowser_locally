@@ -22,7 +22,7 @@
             "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit",
             "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes",
             "organism": "Mus Musculus (mm10)",
-            "defaultPos": "chr18:36900000-37900000",
+            "defaultPos": "chr18:36920000-37830000",
             "gene": "https://hgdownload.soe.ucsc.edu/goldenPath/mm10/database/refGene.txt.gz",
             "tracks": {
                 "bigWig": [
@@ -45,6 +45,15 @@
                     "/home/ljw/sdc1/hush/pCBS.bed"
                 ]
             }
+        },
+        {
+            "genome": "lhs1",
+            "twoBitPath": "https://hgdownload.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.2bit",
+            "chromSizes": "https://hgdownload.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chrom.sizes.txt",
+            "organism": "Homosapien (hs1)",
+            "defaultPos": "chr5:141255000-142051000",
+            "gene": "https://hgdownload.gi.ucsc.edu/goldenPath/hs1/bigZips/genes/hs1.ncbiRefSeq.gp.gz",
+            "tracks": {}
         }
     ]
 }

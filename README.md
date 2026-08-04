@@ -43,6 +43,9 @@ $ docker compose up
 
 # TODO
 
+- ucsc
+  - raise error if included track file dies not exits
+  - if possible, use url instead of download
 - check what happens to sudo bash browserSetup.sh -o and try it in docker
 - check Dockerfile to learn what happens to the containerized GBIC
 - 研究如何包含public track hub

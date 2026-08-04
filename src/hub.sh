@@ -7,7 +7,7 @@ _fetch() {
     local url=$1
     local output=$2
 
-    if ! [ -f "${output}" ]
+    if ! [ -s "${output}" ]
     then
         if [[ "${url}" == "https://"* ]]
         then

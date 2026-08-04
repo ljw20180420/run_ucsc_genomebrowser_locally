@@ -11,7 +11,15 @@ addGene() {
         _fetch "${url}" "${hub_dir}/${genome}/${genome}.gp"
     fi
     _fetch "https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as" "${hub_dir}/${genome}/bigGenePred.as"
-    cut -f3- "${hub_dir}/${genome}/${genome}.gp" |
+    local line1=$(head -n1 "${hub_dir}/${genome}/${genome}.gp")
+    if [[ "${line1}" =~ ^[0-9] ]]
+    then
+        local cnum=3
+    else
+        local cnum=2
+    fi
+    echo ${cnum} >&2
+    cut -f${cnum}- "${hub_dir}/${genome}/${genome}.gp" |
     awk -F $'\t' -v OFS=$'\t' '
         {
             print $11,$0
@@ -67,7 +75,7 @@ addBam() {
     local stem="${base%.*}"
 
     _fetch "${url}" "${hub_dir}/${genome}/${base}"
-    if [[ "${url}" != "https://"* && -f "${url}.bai" ]]
+    if [[ "${url}" != "https://"* && -s "${url}.bai" ]]
     then
         _fetch "${url}.bai" "${hub_dir}/${genome}/${base}.bai"
     else
@@ -97,7 +105,7 @@ addHic() {
         _fetch "${url}" "${hub_dir}/${genome}/${base}"
     elif [[ "${url}" == *".mcool" || "${url}" == *".cool" ]]
     then
-        if [[ ! -f "${hub_dir}/${genome}/${stem}.hic" ]]
+        if [[ ! -s "${hub_dir}/${genome}/${stem}.hic" ]]
         then
             apptainer run docker://ghcr.io/paulsengroup/hictk convert "${url}" "${hub_dir}/${genome}/${stem}.hic"
         fi
