@@ -3,6 +3,21 @@ addGene() {
     local genome=$2
     local url=$3
 
+    cat <<EOF
+track ${genome}Gene
+bigDataUrl ${genome}.bb
+shortLabel ${genome}Gene
+longLabel ${genome}Gene
+type bigGenePred
+visibility full
+
+EOF
+
+    if [[ -s "${hub_dir}/${genome}/${genome}.bb" ]]
+    then
+        return
+    fi
+
     if [[ "${url}" == *".gz" ]]
     then
         _fetch "${url}" "${hub_dir}/${genome}/${genome}.gp.gz"
@@ -32,16 +47,6 @@ addGene() {
         "${hub_dir}/${genome}/${genome}.bgp" \
         "${hub_dir}/${genome}/${genome}.chrom.sizes" \
         "${hub_dir}/${genome}/${genome}.bb"
-
-    cat <<EOF
-track ${genome}Gene
-bigDataUrl ${genome}.bb
-shortLabel ${genome}Gene
-longLabel ${genome}Gene
-type bigGenePred
-visibility full
-
-EOF
 }
 
 addBigWig() {
