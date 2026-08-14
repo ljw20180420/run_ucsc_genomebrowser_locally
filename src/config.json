@@ -42,7 +42,7 @@
             "gene": "https://hgdownload.gi.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz",
             "tracks": {
                 "bed": [
-                    "/home/ljw/sdc1/hush/pCBS.bed"
+                    "/home/ljw/sdc1/hush/result/pCBS.bed"
                 ]
             }
         },
