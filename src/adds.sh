@@ -9,7 +9,7 @@ bigDataUrl ${genome}.bb
 shortLabel ${genome}Gene
 longLabel ${genome}Gene
 type bigGenePred
-visibility full
+visibility dense
 
 EOF
 
@@ -114,7 +114,7 @@ addHic() {
     then
         if [[ ! -s "${hub_dir}/${genome}/${stem}.hic" ]]
         then
-            apptainer run docker://ghcr.io/paulsengroup/hictk convert "${hub_dir}/${genome}/${base}" "${hub_dir}/${genome}/${stem}.hic"
+            hictk convert "${hub_dir}/${genome}/${base}" "${hub_dir}/${genome}/${stem}.hic"
         fi
     fi
 
@@ -152,7 +152,7 @@ bigDataUrl ${stem}.bb
 shortLabel ${stem}
 longLabel ${stem}
 type bigBed 6 +
-visibility full
+visibility dense
 
 EOF
 }
