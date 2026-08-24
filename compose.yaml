@@ -1,6 +1,6 @@
 services:
   ucsc:
-    restart: "always"
+    restart: "no"
     container_name: "ucsc_genomebrowser"
     image: "ghcr.io/ljw20180420/ucsc_genomebrowser_image:latest"
     build:
