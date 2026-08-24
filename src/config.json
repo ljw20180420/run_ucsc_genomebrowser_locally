@@ -45,8 +45,8 @@
                     "/home/ljw/sdc1/hush/result/pCBS.bed"
                 ],
                 "hic": [
-                    "/home/ljw/sdc1/hush/result/ff.hic",
-                    "/home/ljw/sdc1/hush/result/rr.hic"
+                    "/home/ljw/sdc1/hush/result/hic/ff.hic",
+                    "/home/ljw/sdc1/hush/result/hic/rr.hic"
                 ]
             }
         },
