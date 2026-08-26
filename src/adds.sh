@@ -9,7 +9,7 @@ bigDataUrl ${genome}.bb
 shortLabel ${genome}Gene
 longLabel ${genome}Gene
 type bigGenePred
-visibility dense
+visibility pack
 
 EOF
 
