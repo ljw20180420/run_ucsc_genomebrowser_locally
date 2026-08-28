@@ -27,7 +27,7 @@
             "tracks": {
                 "bed": [
                     "/home/ljw/sdc1/cpcdh/result/CBS/pCBS.bed",
-                    "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/eCBS.bed",
+                    "/home/ljw/sdc1/cpcdh/result/CBS/eCBS.bed",
                     "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/tCBS.bed",
                     "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/oCBS.bed",
                     "/home/ljw/sdc1/cpcdh/result/peak/tCBS_ltj_mm10.bed"
