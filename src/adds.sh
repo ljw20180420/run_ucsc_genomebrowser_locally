@@ -141,7 +141,7 @@ addBed() {
     local stem="${base%.*}"
 
     _fetch "${url}" "${hub_dir}/${genome}/${base}"
-    bedToBigBed -fixScores\
+    bedToBigBed -sort -fixScores \
         "${hub_dir}/${genome}/${base}" \
         "${hub_dir}/${genome}/${genome}.chrom.sizes" \
         "${hub_dir}/${genome}/${stem}.bb"
