@@ -30,10 +30,10 @@
                     "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/eCBS.bed",
                     "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/tCBS.bed",
                     "/home/ljw/new_fold/projects/pcdh_sim_projects/lem/oCBS.bed",
-                    "/home/ljw/sdc1/cpcdh/data/tCBS_ltj_mm10.bed"
+                    "/home/ljw/sdc1/cpcdh/result/tCBS_ltj_mm10.bed"
                 ],
                 "bigWig": [
-                    "/home/ljw/sdc1/cpcdh/data/ESC.CTCF.merged.sort.bam_RPKM.mm10.bw",
+                    "/home/ljw/sdc1/cpcdh/result/ESC.CTCF.merged.sort.bam_RPKM.mm10.bw",
                     "https://hgdownload.soe.ucsc.edu/gbdb/mm10/encode4/regulation/organAve/embryoCTCFAll.bw"
                 ],
                 "hic": [
