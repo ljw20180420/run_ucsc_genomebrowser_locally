@@ -60,10 +60,10 @@ addBigWig() {
 
     local bw_up="$(bigWigInfo -minMax "${hub_dir}/${genome}/${base}" | cut -d' ' -f2)"
     cat <<EOF
-track ${stem}
+track ${base}
 bigDataUrl ${base}
-shortLabel ${stem}
-longLabel ${stem}
+shortLabel ${base}
+longLabel ${base}
 type bigWig 0 ${bw_up}
 visibility full
 autoScale on
@@ -87,10 +87,10 @@ addBam() {
     fi
 
     cat <<EOF
-track ${stem}
+track ${base}
 bigDataUrl ${base}
-shortLabel ${stem}
-longLabel ${stem}
+shortLabel ${base}
+longLabel ${base}
 type bam
 visibility hide
 
@@ -119,10 +119,10 @@ addHic() {
     fi
 
     cat <<EOF
-track ${stem}
+track ${stem}.hic
 bigDataUrl ${stem}.hic
-shortLabel ${stem}
-longLabel ${stem}
+shortLabel ${stem}.hic
+longLabel ${stem}.hic
 type hic
 visibility hide
 autoScale on
@@ -147,11 +147,37 @@ addBed() {
         "${hub_dir}/${genome}/${stem}.bb"
 
     cat <<EOF
-track ${stem}
+track ${stem}.bb
 bigDataUrl ${stem}.bb
-shortLabel ${stem}
-longLabel ${stem}
+shortLabel ${stem}.bb
+longLabel ${stem}.bb
 type bigBed 6 +
+visibility dense
+
+EOF
+}
+
+addNarrowPeak() {
+    local hub_dir=$1
+    local genome=$2
+    local url=$3
+    local base="${url##*/}"
+    local stem="${base%.*}"
+
+    _fetch "${url}" "${hub_dir}/${genome}/${base}"
+    _fetch "https://genome.ucsc.edu/goldenpath/help/examples/bigNarrowPeak.as" "${hub_dir}/${genome}/bigNarrowPeak.as"
+    bedToBigBed -sort -fixScores -type=bed6+4 -tab \
+        -as="${hub_dir}/${genome}/bigNarrowPeak.as" \
+        "${hub_dir}/${genome}/${base}" \
+        "${hub_dir}/${genome}/${genome}.chrom.sizes" \
+        "${hub_dir}/${genome}/${stem}.bb"
+
+    cat <<EOF
+track ${stem}.np
+bigDataUrl ${stem}.bb
+shortLabel ${stem}.np
+longLabel ${stem}.np
+type bigNarrowPeak
 visibility dense
 
 EOF
