@@ -22,21 +22,17 @@ EOF
     then
         _fetch "${url}" "${hub_dir}/${genome}/${genome}.gtf.gz"
         gzip -fkd "${hub_dir}/${genome}/${genome}.gtf.gz"
-        gtfToGenePred "${hub_dir}/${genome}/${genome}.gtf" "${hub_dir}/${genome}/${genome}.gp"
-    elif [[ "${url}" == *".gp.gz" ]]
+        gtfToGenePred -genePredExt "${hub_dir}/${genome}/${genome}.gtf" "${hub_dir}/${genome}/${genome}.gp"
+    elif [[ "${url}" == *".gz" ]]
     then
         _fetch "${url}" "${hub_dir}/${genome}/${genome}.gp.gz"
         gzip -fkd "${hub_dir}/${genome}/${genome}.gp.gz"
     elif [[ "${url}" == *".gtf" ]]
     then
         _fetch "${url}" "${hub_dir}/${genome}/${genome}.gtf"
-        gtfToGenePred "${hub_dir}/${genome}/${genome}.gtf" "${hub_dir}/${genome}/${genome}.gp"
-    elif [[ "${url}" == *".gp" ]]
-    then
-        _fetch "${url}" "${hub_dir}/${genome}/${genome}.gp"
+        gtfToGenePred -genePredExt "${hub_dir}/${genome}/${genome}.gtf" "${hub_dir}/${genome}/${genome}.gp"
     else
-        echo "Unknow gene suffix" >&2
-        exit 1
+        _fetch "${url}" "${hub_dir}/${genome}/${genome}.gp"
     fi
     _fetch "https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as" "${hub_dir}/${genome}/bigGenePred.as"
     local line1=$(head -n1 "${hub_dir}/${genome}/${genome}.gp")

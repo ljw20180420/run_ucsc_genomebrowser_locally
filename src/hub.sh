@@ -62,7 +62,10 @@ genomes() {
         read twoBitPath < <(jq -r ".genomes[${i}].twoBitPath" ${config})
         _fetch "${twoBitPath}" "${hub_dir}/${genome}/${genome}.2bit"
         read chromSizes < <(jq -r ".genomes[${i}].chromSizes" ${config})
-        _fetch "${chromSizes}" "${hub_dir}/${genome}/${genome}.chrom.sizes"
+        if [[ ! -f "${hub_dir}/${genome}/${genome}.chrom.sizes" ]]
+        then
+            fetchChromSizes "${chromSizes}" > "${hub_dir}/${genome}/${genome}.chrom.sizes"
+        fi
         read organism < <(jq -r ".genomes[${i}].organism" ${config})
         read defaultPos < <(jq -r ".genomes[${i}].defaultPos" ${config})
         read gene < <(jq -r ".genomes[${i}].gene" ${config})
