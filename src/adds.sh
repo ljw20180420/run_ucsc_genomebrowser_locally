@@ -191,3 +191,19 @@ visibility dense
 
 EOF
 }
+
+addInteract() {
+    local hub_dir=$1
+    local genome=$2
+    local url=$3
+    local base="${url##*/}"
+    local stem="${base%.*}"
+
+    _fetch "${url}" "${hub_dir}/${genome}/${base}"
+    _fetch https://genome.ucsc.edu/goldenpath/help/examples/interact/interact.as "${hub_dir}/${genome}/interact.as"
+    bedToBigBed -sort -fixScores -type=bed5+13 -tab \
+        -as="${hub_dir}/${genome}/interact.as" \
+        "${hub_dir}/${genome}/${base}" \
+        "${hub_dir}/${genome}/${genome}.chrom.sizes" \
+        "${hub_dir}/${genome}/${stem}.bb"
+}
