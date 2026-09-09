@@ -206,4 +206,16 @@ addInteract() {
         "${hub_dir}/${genome}/${base}" \
         "${hub_dir}/${genome}/${genome}.chrom.sizes" \
         "${hub_dir}/${genome}/${stem}.bb"
+
+    cat <<EOF
+track ${stem}.bi
+bigDataUrl ${stem}.bb
+shortLabel ${stem}.bi
+longLabel ${stem}.bi
+type bigInteract
+visibility full
+interactUp true
+interactDirectional true
+
+EOF
 }
