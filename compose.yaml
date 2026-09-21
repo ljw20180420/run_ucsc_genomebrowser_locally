@@ -7,7 +7,7 @@ services:
       network: "host"
       context: "https://raw.githubusercontent.com/ucscGenomeBrowser/kent/master/src/product/installer/docker/Dockerfile"
     ports:
-      - "8080:80"
+      - "0.0.0.0:8080:80"
     volumes:
       - /home/ljw/sdb1/ucsc/hubs/myHub:/usr/local/apache/htdocs/myHub
     command: /sbin/my_init --skip-startup-files
